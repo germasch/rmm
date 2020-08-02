@@ -164,8 +164,8 @@ target_include_directories(rmm PUBLIC
   #"${CUB_INCLUDE_DIR}"
   #"${THRUST_INCLUDE_DIR}"
   #"${CMAKE_CURRENT_SOURCE_DIR}/src"
-  "${CMAKE_CURRENT_SOURCE_DIR}/include"
-  "${CMAKE_CURRENT_BINARY_DIR}/include"
+  "$<INSTALL_INTERFACE:include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_BINARY_DIR}/include>"
   "${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}"
   )
 
@@ -197,6 +197,7 @@ set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/rmm)
 install(TARGETS rmm
   EXPORT rmm-targets
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
 
 install(DIRECTORY include/rmm
@@ -206,6 +207,30 @@ install(DIRECTORY include/rmm
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/rmm/detail/cnmem.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rmm/detail
   )
+
+#Export the targets to a script
+install(EXPORT rmm-targets
+  FILE rmm-targets.cmake
+  NAMESPACE rapids::
+  DESTINATION ${INSTALL_CONFIGDIR}
+  )
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    rmm-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/rmm-config.cmake
+    INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
+)
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/rmm-config-version.cmake
+  COMPATIBILITY AnyNewerVersion
+  )
+
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/rmm-config.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/rmm-config-version.cmake
+  DESTINATION ${INSTALL_CONFIGDIR}
+)
 
 ###################################################################################################
 # - make documentation ----------------------------------------------------------------------------

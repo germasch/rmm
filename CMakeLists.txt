@@ -191,14 +191,21 @@ target_link_libraries(rmm ${CUDART_LIBRARY} cuda)
 ###################################################################################################
 # - install targets -------------------------------------------------------------------------------
 
-install(TARGETS rmm
-        DESTINATION lib)
+include(GNUInstallDirs)
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/rmm)
 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/rmm
-        DESTINATION include)
+install(TARGETS rmm
+  EXPORT rmm-targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+
+install(DIRECTORY include/rmm
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  )
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/rmm/detail/cnmem.h
-        DESTINATION include/rmm/detail)
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rmm/detail
+  )
 
 ###################################################################################################
 # - make documentation ----------------------------------------------------------------------------

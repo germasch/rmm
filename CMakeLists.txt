@@ -144,19 +144,26 @@ link_directories("${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES}" # CMAKE_CUDA_IMPLICIT
 
 ###################################################################################################
 # - library targets -------------------------------------------------------------------------------
-add_library(rmm SHARED
-            "${CNMEM_SOURCE_DIR}/cnmem.cpp")
 
-target_include_directories(rmm PRIVATE
-  #"${SPDLOG_INCLUDE_DIR}"
-  #"${CUB_INCLUDE_DIR}"
-  #"${THRUST_INCLUDE_DIR}"
-  #"${CMAKE_CURRENT_SOURCE_DIR}/src"
-  ##"${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}" #also needed for cnmem
+add_library(cnmem OBJECT
+  "${CNMEM_SOURCE_DIR}/cnmem.cpp"
+  )
+
+set_property(TARGET cnmem PROPERTY POSITION_INDEPENDENT_CODE ON)
+	  
+target_include_directories(cnmem PRIVATE
+  "${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}"
   "${CNMEM_INCLUDE_DIR}"
   )
 
+add_library(rmm SHARED
+  $<TARGET_OBJECTS:cnmem>
+  )
+
 target_include_directories(rmm PUBLIC
+  #"${CUB_INCLUDE_DIR}"
+  #"${THRUST_INCLUDE_DIR}"
+  #"${CMAKE_CURRENT_SOURCE_DIR}/src"
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
   "${CMAKE_CURRENT_BINARY_DIR}/include"
   "${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}"

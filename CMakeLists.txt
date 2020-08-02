@@ -196,6 +196,10 @@ install(TARGETS rmm
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/rmm
         DESTINATION include)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/rmm/detail/cnmem.h
+        DESTINATION include/rmm/detail)
+
 ###################################################################################################
 # - make documentation ----------------------------------------------------------------------------
 

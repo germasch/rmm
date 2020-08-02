@@ -136,17 +136,6 @@ endif(BUILD_BENCHMARKS)
 
 
 ###################################################################################################
-# - include paths ---------------------------------------------------------------------------------
-include_directories("${SPDLOG_INCLUDE_DIR}"
-                    "${CUB_INCLUDE_DIR}"
-                    "${THRUST_INCLUDE_DIR}"
-                    "${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}"
-                    "${CMAKE_CURRENT_SOURCE_DIR}/include"
-                    "${CMAKE_CURRENT_BINARY_DIR}/include"
-                    "${CMAKE_CURRENT_SOURCE_DIR}/src"
-                    "${CNMEM_INCLUDE_DIR}")
-
-###################################################################################################
 # - library paths ---------------------------------------------------------------------------------
 
 link_directories("${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES}" # CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES is an undocumented/unsupported variable containing the link directories for nvcc
@@ -157,6 +146,21 @@ link_directories("${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES}" # CMAKE_CUDA_IMPLICIT
 # - library targets -------------------------------------------------------------------------------
 add_library(rmm SHARED
             "${CNMEM_SOURCE_DIR}/cnmem.cpp")
+
+target_include_directories(rmm PRIVATE
+  #"${SPDLOG_INCLUDE_DIR}"
+  #"${CUB_INCLUDE_DIR}"
+  #"${THRUST_INCLUDE_DIR}"
+  #"${CMAKE_CURRENT_SOURCE_DIR}/src"
+  ##"${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}" #also needed for cnmem
+  "${CNMEM_INCLUDE_DIR}"
+  )
+
+target_include_directories(rmm PUBLIC
+  "${CMAKE_CURRENT_SOURCE_DIR}/include"
+  "${CMAKE_CURRENT_BINARY_DIR}/include"
+  "${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}"
+  )
 
 # override rpath for rmm
 SET_TARGET_PROPERTIES(rmm PROPERTIES BUILD_RPATH "\$ORIGIN")

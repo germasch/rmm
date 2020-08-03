@@ -15,7 +15,20 @@
 #=============================================================================
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(RMM VERSION 0.15.0 LANGUAGES C CXX CUDA)
+project(RMM VERSION 0.15.0 LANGUAGES C CXX)
+
+# This is needed on Summit when not using modules (in a spack build) to
+# make sure that nvcc uses the same host compiler that was otherwise
+# specified
+set(CMAKE_CUDA_HOST_COMPILER "${CMAKE_CXX_COMPILER}")
+
+# Work around Summit's buggy nvcc
+set(_CMAKE_CUDA_FLAGS_SAVE "${CMAKE_CUDA_FLAGS}")
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -std c++14")
+
+enable_language(CUDA)
+
+set(CMAKE_CUDA_FLAGS "${_CMAKE_CUDA_FLAGS_SAVE}")
 
 ###################################################################################################
 # - build type ------------------------------------------------------------------------------------

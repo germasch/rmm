@@ -28,9 +28,7 @@ INSTANTIATE_TEST_CASE_P(ResourceTests,
                         ::testing::Values(mr_factory{"CUDA", &make_cuda},
                                           mr_factory{"Managed", &make_managed},
                                           mr_factory{"Pool", &make_pool},
-                                          mr_factory{"Binning", &make_binning},
-                                          mr_factory{"Limiting", &make_limiting},
-                                          mr_factory{"Tracking", &make_tracking}),
+                                          mr_factory{"Binning", &make_binning}),
                         [](auto const& info) { return info.param.name; });
 
 TEST(DefaultTest, CurrentDeviceResourceIsCUDA)

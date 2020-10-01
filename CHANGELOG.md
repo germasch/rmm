@@ -26,6 +26,10 @@
 - PR #566 CMake: use CPM for thirdparty dependencies
 - PR #568 Upgrade googletest to v1.10.0
 - PR #572 CMake: prefer locally installed thirdparty packages
+- PR #579 CMake: handle thrust via target
+- PR #581 Improve logging documentation
+- PR #585 Update ci/local/README.md
+- PR #587 Replaced `move` with `std::move`
 
 ## Bug Fixes
 

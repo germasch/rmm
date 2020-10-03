@@ -38,12 +38,12 @@ thrust_create_target(rmm::Thrust FROM_OPTIONS)
 ###################################################################################################
 # - boost stacktrace ------------------------------------------------------------------------------
 
-set(RMM_MIN_VERSION_Boost 1.74.0)
+set(RMM_MIN_VERSION_Boost 1.72.0)
 
 CPMFindPackage(
   NAME Boost
-  URL https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz
-  URL_HASH SHA256=afff36d392885120bcac079148c177d1f6f7730ec3d47233aa51b0afa4db94a5
+  URL https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
+  URL_HASH SHA256=c66e88d5786f2ca4dbebb14e06b566fb642a1a6947ad8cc9091f9f445134143f
   VERSION ${RMM_MIN_VERSION_Boost}
   DOWNLOAD_ONLY TRUE
   )

@@ -16,6 +16,8 @@ find_dependency(spdlog @RMM_MIN_VERSION_spdlog@)
 find_dependency(Thrust @RMM_MIN_VERSION_Thrust@)
 thrust_create_target(rmm::Thrust FROM_OPTIONS)
 
+find_dependency(Boost @RMM_MIN_VERSION_Boost@)
+
 set(CMAKE_MODULE_PATH ${_save_CMAKE_MODULE_PATH})
 
 

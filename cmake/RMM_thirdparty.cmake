@@ -40,7 +40,20 @@ thrust_create_target(rmm::Thrust FROM_OPTIONS)
 
 set(RMM_MIN_VERSION_Boost 1.74.0)
 
-find_package(Boost ${RMM_MIN_VERSION_Boost} REQUIRED)
+CPMFindPackage(
+  NAME Boost
+  URL https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz
+  URL_HASH SHA256=afff36d392885120bcac079148c177d1f6f7730ec3d47233aa51b0afa4db94a5
+  VERSION ${RMM_MIN_VERSION_Boost}
+  DOWNLOAD_ONLY TRUE
+  )
+
+if (Boost_ADDED)
+  add_library(Boost::boost IMPORTED INTERFACE)
+  set_target_properties(Boost::boost PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES ${Boost_SOURCE_DIR}
+    )
+endif()
 
 ###################################################################################################
 # - googletest ------------------------------------------------------------------------------------
